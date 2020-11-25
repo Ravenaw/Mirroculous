@@ -13,6 +13,7 @@ namespace Mirroculous.Controllers
     {
         const string localDBLink = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Mirroculous;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
+        private const string connectionString = "Server=tcp:mirroculous.database.windows.net,1433;Initial Catalog=Mirroculous;Persist Security Info=False;User ID=mirroradmin;Password=Mirrorpassword1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
 
         // GET: api/<ValuesController>
         [HttpGet]
@@ -22,7 +23,7 @@ namespace Mirroculous.Controllers
 
             String selectAllDB = "Select id, temperature, humidity, dateTime from Mirror";
 
-            using (SqlConnection dataBaseConnection = new SqlConnection(localDBLink))
+            using (SqlConnection dataBaseConnection = new SqlConnection(connectionString))
             {
                 dataBaseConnection.Open();
                 using (SqlCommand selectCommand = new SqlCommand(selectAllDB, dataBaseConnection))
@@ -82,7 +83,7 @@ namespace Mirroculous.Controllers
         private List<Mirror> GetMirrorFromDB(string sql)
         {
             List<Mirror> DBList = new List<Mirror>();
-            using (SqlConnection databaseConnection = new SqlConnection(localDBLink))
+            using (SqlConnection databaseConnection = new SqlConnection(connectionString))
             {
                 databaseConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sql, databaseConnection))
