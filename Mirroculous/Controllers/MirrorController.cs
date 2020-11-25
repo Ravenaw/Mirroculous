@@ -11,10 +11,8 @@ namespace Mirroculous.Controllers
     [ApiController]
     public class MirrorController : ControllerBase
     {
-        //const string localDBLink = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Mirroculous;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        const string localDBLink = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Mirroculous;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
-        private const string localDBLink =
-            "Server=tcp:mirroculous.database.windows.net,1433;Initial Catalog=Mirroculous;Persist Security Info=False;User ID=mirroradmin;Password=Nickcolas1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         // GET: api/<ValuesController>
         [HttpGet]
