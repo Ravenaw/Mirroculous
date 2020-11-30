@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Mirroculous</name>
+    </assembly>
+    <members>
+        <member name="F:Mirroculous.Controllers.MirrorController.ConnectionString">
+             <summary>
+             Connection String to Data Base
+             </summary>
+            
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Mirroculous.Controllers.MirrorController.Get" -->
+        <!-- Badly formed XML comment ignored for member "M:Mirroculous.Controllers.MirrorController.Get(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Mirroculous.Controllers.MirrorController.Post(Mirroculous.Model.Mirror)" -->
+        <member name="M:Mirroculous.Controllers.MirrorController.GetDateTime(System.DateTime)">
+            <summary>
+            GET - By Date from DB
+            </summary>
+            <param name="dateTime"></param>
+            <returns> selected date </returns>
+        </member>
+        <member name="M:Mirroculous.Controllers.MirrorController.GetMirrorFromDb(System.String)">
+            <summary>
+            Helper Method - GetMirrorFromDB(string sql)
+            </summary>
+            <param name="sql"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mirroculous.Controllers.MirrorController.GetMirrorFromDB2">
+            <summary>
+            getting from DB. this method is mostly for testing purpose 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Mirroculous.Model.Mirror.ID">
+            <summary>
+            Properties 
+            </summary>
+        </member>
+        <member name="M:Mirroculous.Model.Mirror.#ctor(System.Int32,System.Int32,System.Int32,System.DateTime)">
+            <summary>
+            constructors 
+            </summary>
+            <param name="id"></param>
+            <param name="temperature"></param>
+            <param name="humidity"></param>
+            <param name="dateTime"></param>
+        </member>
+        <member name="M:Mirroculous.Model.Mirror.#ctor">
+            <summary>
+            desfault constructor
+            </summary>
+        </member>
+        <member name="M:Mirroculous.Model.Mirror.ToString">
+            <summary>
+            Overide to String method - in case we need
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

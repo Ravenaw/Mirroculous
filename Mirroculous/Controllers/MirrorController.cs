@@ -3,6 +3,8 @@ using Mirroculous.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Mirroculous.Controllers
@@ -11,11 +13,22 @@ namespace Mirroculous.Controllers
     [ApiController]
     public class MirrorController : ControllerBase
     {
-        const string localDBLink = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Mirroculous;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        // private const string ConnectionString = "Server=tcp:mirroculous.database.windows.net,1433;Initial Catalog=Mirroculous;Persist Security Info=False;User ID=mirroradmin;Password=Mirrorpassword1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
 
-        private const string connectionString = "Server=tcp:mirroculous.database.windows.net,1433;Initial Catalog=Mirroculous;Persist Security Info=False;User ID=mirroradmin;Password=Mirrorpassword1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
+        /// <summary>
+        /// Connection String to Data Base
+        /// </summary>
+        ///
+        
+        const string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Mirroculous;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
-        // GET: api/<ValuesController>
+        private List<Mirror> _dbList;
+
+        /// <summary>
+        /// GET: api/<ValuesController>
+        /// </summary>
+        /// <returns>return DB as list </returns>
+
         [HttpGet]
         public IEnumerable<Mirror> Get()
         {
@@ -23,7 +36,7 @@ namespace Mirroculous.Controllers
 
             String selectAllDB = "Select id, temperature, humidity, dateTime from Mirror";
 
-            using (SqlConnection dataBaseConnection = new SqlConnection(connectionString))
+            using (SqlConnection dataBaseConnection = new SqlConnection(ConnectionString))
             {
                 dataBaseConnection.Open();
                 using (SqlCommand selectCommand = new SqlCommand(selectAllDB, dataBaseConnection))
@@ -46,44 +59,76 @@ namespace Mirroculous.Controllers
             return DBList;
         }
 
-
-        // GET api/<ValuesController>/5
+        /// <summary>
+        /// GET api/<ValuesController>/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {
             return "Not implemented! cuz we don't need it";
         }
 
-        // POST api/<ValuesController>
+        /// <summary>
+        /// POST api/<ValuesController>
+        /// </summary>
+        /// <param name="value"></param>
+
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Mirror mirror)
         {
+            if(!ElephantExists(mirror.ID))
+            {
+                _dbList.Add(mirror);
+                return CreatedAtAction("Get", new { id = mirror.ID }, mirror);
+            }
+            else
+            {
+                return NotFound(new { message = "Id is duplicate" });
+            }
         }
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //// PUT api/<ValuesController>/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
 
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //// DELETE api/<ValuesController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
 
+        /// <summary>
+        /// GET - By Date from DB
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns> selected date </returns>
         [HttpGet("bydate/{dateTime}", Name = "GetByDate")]
-        public IEnumerable<Mirror> GetDateTime(DateTime dateTime)
+        public IActionResult GetDateTime(DateTime dateTime)
         {
             string sql = $"Select id, temperature, humidity, dateTime from Mirror Where dateTime = '{dateTime}'";
 
-            return GetMirrorFromDB(sql);
+            var bydate1 = GetMirrorFromDb(sql);
+            if (bydate1 != null)
+            {
+                return Ok(bydate1);
+            }
+            return NotFound(new { message = "Date not found!" });
         }
 
-        private List<Mirror> GetMirrorFromDB(string sql)
+        /// <summary>
+        /// Helper Method - GetMirrorFromDB(string sql)
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+
+        public List<Mirror> GetMirrorFromDb(string sql)
         {
             List<Mirror> DBList = new List<Mirror>();
-            using (SqlConnection databaseConnection = new SqlConnection(connectionString))
+            using (SqlConnection databaseConnection = new SqlConnection(ConnectionString))
             {
                 databaseConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sql, databaseConnection))
@@ -104,5 +149,54 @@ namespace Mirroculous.Controllers
             }
             return DBList;
         }
+
+
+        /// <summary>
+        /// getting from DB. this method is mostly for testing purpose 
+        /// </summary>
+        /// <returns></returns>
+        public List<Mirror>  GetMirrorFromDB2()
+        {
+            String selectAllDB = "Select id, temperature, humidity, dateTime from Mirror";
+
+            List<Mirror> DBList = new List<Mirror>();
+            using (SqlConnection databaseConnection = new SqlConnection(ConnectionString))
+            {
+                databaseConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(selectAllDB, databaseConnection))
+                {
+                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id1 = reader.GetInt32(0);
+                            int byTemperature = reader.GetInt32(1);
+                            int byHumidity = reader.GetInt32(2);
+                            DateTime byDateTime = reader.GetDateTime(3);
+
+                            DBList.Add(new Mirror(id1, byTemperature, byHumidity, byDateTime));
+                        }
+                    }
+                }
+            }
+            return DBList;
+        }
+
+        private bool ElephantExists(long id)
+        {
+            return _dbList.Any(e => e.ID == id);
+        }
+
+
+        public MirrorController()
+        {
+        }
+        //List<Mirror> productMirror = new List<Mirror>();
+
+        //public MirrorController(List<Mirror> productMirror)
+        //{
+        //    this.productMirror = productMirror;
+        //}
+
     }
 }
