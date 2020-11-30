@@ -13,14 +13,14 @@ namespace Mirroculous.Controllers
     [ApiController]
     public class MirrorController : ControllerBase
     {
-        // private const string ConnectionString = "Server=tcp:mirroculous.database.windows.net,1433;Initial Catalog=Mirroculous;Persist Security Info=False;User ID=mirroradmin;Password=Mirrorpassword1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
+        private const string ConnectionString = "Server=tcp:mirroculous.database.windows.net,1433;Initial Catalog=Mirroculous;Persist Security Info=False;User ID=mirroradmin;Password=Mirrorpassword1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
 
         /// <summary>
         /// Connection String to Data Base
         /// </summary>
         ///
-        
-        const string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Mirroculous;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
+        //const string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Mirroculous;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         private List<Mirror> _dbList;
 
@@ -67,25 +67,32 @@ namespace Mirroculous.Controllers
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {
-            return "Not implemented! cuz we don't need it";
+            return "Routing does not exist!";
         }
 
         /// <summary>
         /// POST api/<ValuesController>
         /// </summary>
-        /// <param name="value"></param>
-
+        /// <param name="mirror"></param>
         [HttpPost]
-        public IActionResult Post([FromBody] Mirror mirror)
+        public void Post([FromBody] Mirror value)
         {
-            if(!ElephantExists(mirror.ID))
+            string insertSql =
+                "insert into Mirror(temperature, humidity, dateTime) values( @temperature, @humidity, @dateTime)";
+
+            using (SqlConnection dataBaseConnection = new SqlConnection(ConnectionString))
             {
-                _dbList.Add(mirror);
-                return CreatedAtAction("Get", new { id = mirror.ID }, mirror);
-            }
-            else
-            {
-                return NotFound(new { message = "Id is duplicate" });
+                dataBaseConnection.Open();
+                using (SqlCommand insertCommand = new SqlCommand(insertSql, dataBaseConnection))
+                {
+                   // insertCommand.Parameters.AddWithValue("@id", value.ID);
+                    insertCommand.Parameters.AddWithValue("@temperature", value.Temperature);
+                    insertCommand.Parameters.AddWithValue("@humidity", value.Humidity);
+                    insertCommand.Parameters.AddWithValue("@dateTime", value.DateTime);
+
+                    var rowsAffected = insertCommand.ExecuteNonQuery();
+                    Console.WriteLine($"Rows affected: {rowsAffected}");
+                }
             }
         }
 
@@ -182,7 +189,7 @@ namespace Mirroculous.Controllers
             return DBList;
         }
 
-        private bool ElephantExists(long id)
+        private bool MirrorExists(long id)
         {
             return _dbList.Any(e => e.ID == id);
         }

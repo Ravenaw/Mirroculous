@@ -36,7 +36,7 @@ namespace Mirroculous.Model
         }
 
         /// <summary>
-        /// Overide to String method - in case we need
+        /// Overide to String method - in case we need it
         /// </summary>
         /// <returns></returns>
         public override string ToString()
