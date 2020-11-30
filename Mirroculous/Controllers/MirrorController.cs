@@ -21,7 +21,7 @@ namespace Mirroculous.Controllers
         {
             List<Mirror> DBList = new List<Mirror>();
 
-            String selectAllDB = "Select id, temperature, humidity, dateTime from Mirror";
+            String selectAllDB = "Select * from Mirror";
 
             using (SqlConnection dataBaseConnection = new SqlConnection(connectionString))
             {
