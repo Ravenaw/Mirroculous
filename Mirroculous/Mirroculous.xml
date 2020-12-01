@@ -49,12 +49,12 @@
         </member>
         <member name="M:Mirroculous.Model.Mirror.#ctor">
             <summary>
-            desfault constructor
+            default constructor
             </summary>
         </member>
         <member name="M:Mirroculous.Model.Mirror.ToString">
             <summary>
-            Overide to String method - in case we need it
+            Override to String method - in case we need it
             </summary>
             <returns></returns>
         </member>

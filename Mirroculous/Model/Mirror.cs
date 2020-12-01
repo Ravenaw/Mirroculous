@@ -29,14 +29,14 @@ namespace Mirroculous.Model
             DateTime = dateTime;
         }
         /// <summary>
-        /// desfault constructor
+        /// default constructor
         /// </summary>
         public Mirror()
         {
         }
 
         /// <summary>
-        /// Overide to String method - in case we need it
+        /// Override to String method - in case we need it
         /// </summary>
         /// <returns></returns>
         public override string ToString()
