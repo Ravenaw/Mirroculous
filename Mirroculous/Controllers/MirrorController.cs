@@ -85,7 +85,7 @@ namespace Mirroculous.Controllers
                 dataBaseConnection.Open();
                 using (SqlCommand insertCommand = new SqlCommand(insertSql, dataBaseConnection))
                 {
-                   // insertCommand.Parameters.AddWithValue("@id", value.ID);
+                    insertCommand.Parameters.AddWithValue("@id", value.ID);
                     insertCommand.Parameters.AddWithValue("@temperature", value.Temperature);
                     insertCommand.Parameters.AddWithValue("@humidity", value.Humidity);
                     insertCommand.Parameters.AddWithValue("@dateTime", value.DateTime);
@@ -198,12 +198,7 @@ namespace Mirroculous.Controllers
         public MirrorController()
         {
         }
-        //List<Mirror> productMirror = new List<Mirror>();
-
-        //public MirrorController(List<Mirror> productMirror)
-        //{
-        //    this.productMirror = productMirror;
-        //}
+        
 
     }
 }
