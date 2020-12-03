@@ -45,7 +45,7 @@ namespace Mirroculous.Model
         }
 
         /// <summary>
-        /// Returs the data in a string format
+        /// Returns the data in a string format
         /// </summary>
         /// <returns></returns>
         public override string ToString()

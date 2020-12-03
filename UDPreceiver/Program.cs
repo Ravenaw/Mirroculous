@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace UDPreceiver
 {
+    
     class Program
     {
         private const int Port = 55555;
@@ -35,8 +36,6 @@ namespace UDPreceiver
             //IPEndPoint object will allow us to read datagrams sent from any source.
             //IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
-            // Blocks until a message returns on this socket from a remote host.
-            Console.WriteLine("Receiver is blocked");
             try
             {
                 while (true)
@@ -47,18 +46,13 @@ namespace UDPreceiver
 
                     Console.WriteLine("Sender: " + receivedData.ToString());
 
-                    string[] textLines = receivedData.Split(',');
+                    string[] textLines = receivedData.Split(' ');
 
-                    string[] ID_Arr = textLines[0].Split(':');
-                    int ID = Convert.ToInt32(ID_Arr[1].Trim());
-                    string[] Temp_Arr = textLines[1].Split(':');
-                    int Temp = Convert.ToInt32(Temp_Arr[1].Trim());
-                    string[] Hum_Arr = textLines[2].Split(':');
-                    int Hum = Convert.ToInt32(Hum_Arr[1].Trim());
-                    string[] Date_Arr = textLines[3].Split(':');
-                    DateTime Date = Convert.ToDateTime((Date_Arr[1]+":"+Date_Arr[2]).Trim());
+                    int Temp = Convert.ToInt32(double.Parse(textLines[0].Trim()));
+                    int Hum = Convert.ToInt32(double.Parse(textLines[1].Trim()));
+                    DateTime Date = Convert.ToDateTime(textLines[2]+"T"+textLines[3].TrimEnd('.'));
 
-                    Mirror r_Mirror = new Mirror(ID,Temp,Hum,Date);
+                    Mirror r_Mirror = new Mirror(0,Temp,Hum,Date);
 
                     Post(r_Mirror).Wait();
 

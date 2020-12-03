@@ -9,6 +9,7 @@ using System.Linq;
 
 namespace Mirroculous.Controllers
 {
+    
     [Route("[controller]")]
     [ApiController]
     public class MirrorController : ControllerBase
@@ -85,7 +86,7 @@ namespace Mirroculous.Controllers
                 dataBaseConnection.Open();
                 using (SqlCommand insertCommand = new SqlCommand(insertSql, dataBaseConnection))
                 {
-                    insertCommand.Parameters.AddWithValue("@id", value.ID);
+                    //insertCommand.Parameters.AddWithValue("@id", value.ID);
                     insertCommand.Parameters.AddWithValue("@temperature", value.Temperature);
                     insertCommand.Parameters.AddWithValue("@humidity", value.Humidity);
                     insertCommand.Parameters.AddWithValue("@dateTime", value.DateTime);
