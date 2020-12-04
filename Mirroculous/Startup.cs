@@ -24,7 +24,7 @@ namespace Mirroculous
                 options.AddPolicy("AllowSpecificOrigins",
                     builder =>
                     {
-                        builder.WithOrigins("https://localhost:44339/mirror").AllowAnyHeader().AllowAnyMethod();
+                        builder.WithOrigins("https://mirroculousweb.azurewebsites.net/mirror").AllowAnyHeader().AllowAnyMethod();
                     });
 
                 // 2nd Policy --> allow any origins -- Now you have to public your services

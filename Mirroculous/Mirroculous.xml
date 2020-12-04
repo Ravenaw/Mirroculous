@@ -35,12 +35,27 @@
         </member>
         <member name="P:Mirroculous.Model.Mirror.ID">
             <summary>
-            Properties 
+            The Id of the mirror 
+            </summary>
+        </member>
+        <member name="P:Mirroculous.Model.Mirror.Temperature">
+            <summary>
+            The temperature
+            </summary>
+        </member>
+        <member name="P:Mirroculous.Model.Mirror.Humidity">
+            <summary>
+            Humidity
+            </summary>
+        </member>
+        <member name="P:Mirroculous.Model.Mirror.DateTime">
+            <summary>
+            The date of recording
             </summary>
         </member>
         <member name="M:Mirroculous.Model.Mirror.#ctor(System.Int32,System.Int32,System.Int32,System.DateTime)">
             <summary>
-            constructors 
+            Default constructor with initialization
             </summary>
             <param name="id"></param>
             <param name="temperature"></param>
@@ -49,12 +64,12 @@
         </member>
         <member name="M:Mirroculous.Model.Mirror.#ctor">
             <summary>
-            desfault constructor
+            Empty constructor
             </summary>
         </member>
         <member name="M:Mirroculous.Model.Mirror.ToString">
             <summary>
-            Overide to String method - in case we need
+            Returs the data in a string format
             </summary>
             <returns></returns>
         </member>
