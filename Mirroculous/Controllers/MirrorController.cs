@@ -13,14 +13,14 @@ namespace Mirroculous.Controllers
     [ApiController]
     public class MirrorController : ControllerBase
     {
-        // private const string ConnectionString = "Server=tcp:mirroculous.database.windows.net,1433;Initial Catalog=Mirroculous;Persist Security Info=False;User ID=mirroradmin;Password=Mirrorpassword1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
+        private const string ConnectionString = "Server=tcp:mirroculous.database.windows.net,1433;Initial Catalog=Mirroculous;Persist Security Info=False;User ID=mirroradmin;Password=Mirrorpassword1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
 
         /// <summary>
         /// Connection String to Data Base
         /// </summary>
         ///
         
-        const string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Mirroculous;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        //const string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Mirroculous;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         private List<Mirror> _dbList;
 
@@ -109,7 +109,7 @@ namespace Mirroculous.Controllers
         [HttpGet("bydate/{dateTime}", Name = "GetByDate")]
         public IActionResult GetDateTime(DateTime dateTime)
         {
-            string sql = $"Select id, temperature, humidity, dateTime from Mirror Where dateTime = '{dateTime}'";
+            string sql = $"Select id, temperature, humidity, dateTime from Mirror Where convert(date, dateTime) = '{dateTime}'";
 
             var bydate1 = GetMirrorFromDb(sql);
             if (bydate1 != null)

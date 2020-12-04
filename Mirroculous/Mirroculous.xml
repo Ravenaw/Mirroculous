@@ -4,7 +4,7 @@
         <name>Mirroculous</name>
     </assembly>
     <members>
-        <member name="F:Mirroculous.Controllers.MirrorController.ConnectionString">
+        <member name="F:Mirroculous.Controllers.MirrorController._dbList">
              <summary>
              Connection String to Data Base
              </summary>
